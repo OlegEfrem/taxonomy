@@ -1,6 +1,7 @@
 package com.timeout.taxonomy.helpers
 
 import com.timeout.taxonomy.model.{Descendants, Node, Tag}
+
 import scala.util.Random
 
 trait TestData {
@@ -12,67 +13,15 @@ trait TestData {
   val twoSameTagIdInSameBranch = "twoSameIdNodeInSameBranch"
   val twoSameTagInDifferentBranches = "twoSameIdNodeInDifferentBranches"
 
-  def randomNode = createNode(randomString)
-
   def createTwoSameNodeIdInSameBranch(): Node = {
     createNode(
       id = twoSameNodeIdInSameBranch,
       descendants = Some(
-        Descendants(Seq(
+        Descendants(List(
           createNode(
             id = twoSameNodeIdInSameBranch,
             parent = Some(createNode(id = twoSameNodeIdInSameBranch)))
         )))
-    )
-  }
-
-  def createTwoSameNodeIdInDifferentBranches(): Set[Node] = {
-    val randomNodeId = randomString
-    Set(
-      createNode(
-        id = twoSameNodeIdInSameBranch,
-        descendants = Some(Descendants(Seq(randomNode)))
-      ),
-      createNode(
-        id = randomNodeId,
-        descendants = Some(
-          Descendants(Seq(
-            createNode(
-              id = twoSameNodeIdInSameBranch,
-              parent = Some(createNode(id = randomNodeId)))
-          )))
-      )
-    )
-  }
-
-  def createTwoSameTagIdInSameBranch(): Node = {
-    createNode(
-      tagId = twoSameNodeIdInSameBranch,
-      descendants = Some(
-        Descendants(Seq(
-          createNode(
-            tagId = twoSameNodeIdInSameBranch,
-            parent = Some(createNode(id = twoSameNodeIdInSameBranch)))
-        )))
-    )
-  }
-
-  def createTwoSameTagInDifferentBranches(): Set[Node] = {
-    val randomNodeId = randomString
-    Set(
-      createNode(
-        tagId = twoSameNodeIdInSameBranch,
-        descendants = Some(Descendants(Seq(randomNode)))
-      ),
-      createNode(
-        tagId = randomNodeId,
-        descendants = Some(
-          Descendants(Seq(
-            createNode(
-              tagId = twoSameNodeIdInSameBranch,
-              parent = Some(createNode(id = randomNodeId)))
-          )))
-      )
     )
   }
 
@@ -83,6 +32,60 @@ trait TestData {
       parent = parent,
       descendants = descendants
     )
+
+  def createTwoSameNodeIdInDifferentBranches(): List[Node] = {
+    val randomNodeId = randomString
+    List(
+      createNode(
+        id = twoSameNodeIdInDifferentBranches,
+        descendants = Some(Descendants(List(randomNode)))
+      ),
+      createNode(
+        id = randomNodeId,
+        descendants = Some(
+          Descendants(List(
+            createNode(
+              id = twoSameNodeIdInDifferentBranches,
+              parent = Some(createNode(id = randomNodeId)),
+              descendants = Some(Descendants(List(randomNode)))
+            )))
+        )
+      )
+    )
+  }
+
+  def createTwoSameTagIdInSameBranch(): Node = {
+    createNode(
+      tagId = twoSameNodeIdInSameBranch,
+      descendants = Some(
+        Descendants(List(
+          createNode(
+            tagId = twoSameNodeIdInSameBranch,
+            parent = Some(createNode(id = twoSameNodeIdInSameBranch)))
+        )))
+    )
+  }
+
+  def createTwoSameTagInDifferentBranches(): List[Node] = {
+    val randomNodeId = randomString
+    List(
+      createNode(
+        tagId = twoSameTagInDifferentBranches,
+        descendants = Some(Descendants(List(randomNode)))
+      ),
+      createNode(
+        tagId = randomNodeId,
+        descendants = Some(
+          Descendants(List(
+            createNode(
+              tagId = twoSameTagInDifferentBranches,
+              parent = Some(createNode(id = randomNodeId)))
+          )))
+      )
+    )
+  }
+
+  def randomNode = createNode(randomString)
 
   private def randomString = Random.nextString(10)
 

@@ -3,9 +3,14 @@ package com.timeout.taxonomy.model
 /**
   * @param id node name, eg: shows
   **/
-case class Node(id: String, tag: Tag, parent: Option[Node], descendants: Option[Descendants])
+case class Node(id: String, tag: Tag, parent: Option[Node], descendants: Option[Descendants]) {
 
-case class Descendants(nodes: Seq[Node])
+  def descendantsAsNodes: List[Node] =
+    descendants.map(_.nodes).getOrElse(List())
+
+}
+
+case class Descendants(nodes: List[Node])
 
 /**
   * @param id tag name, eg: chinese
